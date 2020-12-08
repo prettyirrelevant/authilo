@@ -4,10 +4,10 @@ from flask_pymongo import PyMongo
 mongo = PyMongo()
 
 
-def create_app(settings=None):
+def create_app(development_settings=None, production_settings=None):
     app = Flask(__name__)
-    app.config.from_object(settings)
-    app.config.from_envvar("FLASK_SETTINGS")
+    app.config.from_object(development_settings)
+    app.config.from_object(production_settings)
 
     mongo.init_app(app)
 
