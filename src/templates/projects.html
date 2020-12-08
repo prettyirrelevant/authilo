@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="mx-2 md:mx-0 mt-5 flex items-center text-gray-400">
+        <a class="cursor-pointer text-blue-500 mr-4 hover:underline focus:outline-none outline-none"
+           href="{{ url_for('projects') }}">Projects</a>
+        <svg class="w-5 mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+        <button class="outline-none focus:outline-none add-project">
+            <svg class="w-8" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
+                <path d="m256 0c-141.164062 0-256 114.835938-256 256s114.835938 256 256 256 256-114.835938 256-256-114.835938-256-256-256zm0 0"
+                      fill="#2196f3"></path>
+                <path d="m368 277.332031h-90.667969v90.667969c0 11.777344-9.554687 21.332031-21.332031 21.332031s-21.332031-9.554687-21.332031-21.332031v-90.667969h-90.667969c-11.777344 0-21.332031-9.554687-21.332031-21.332031s9.554687-21.332031 21.332031-21.332031h90.667969v-90.667969c0-11.777344 9.554687-21.332031 21.332031-21.332031s21.332031 9.554687 21.332031 21.332031v90.667969h90.667969c11.777344 0 21.332031 9.554687 21.332031 21.332031s-9.554687 21.332031-21.332031 21.332031zm0 0"
+                      fill="#fafafa"></path>
+            </svg>
+        </button>
+    </div>
+
+    {#    display when no project exists   #}
+    {% if user_projects|length < 1 %}
+        <div class="text-gray-500 flex mt-24 justify-center">
+            <svg class="w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <p class="text-sm font-normal">No projects yet...</p>
+        </div>
+    {% endif %}
+
+    {% if user_projects|length > 0 %}
+        <div class="mt-6">
+            {% for project in user_projects %}
+                <a href="{{ url_for('project', id=project._id) }}"
+                   class="block flex items-center hover:bg-gray-200 px-2 cursor-pointer rounded-lg py-2">
+                    <img src="{{ project.url }}" alt="project url" class="rounded-full w-10">
+                    <p class="text-gray-800 tracking-wide ml-3">{{ project.name }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="mx-1 mt-10">
+        <a href="{{ url_for('delete_account') }}" role="button" class="bg-red-600 text-gray-100 px-2 py-1 hover:shadow-md">Delete Account</a>
+        <a href="{{ url_for('logout') }}" role="button" class="bg-yellow-600 text-gray-100 px-2 py-1 hover:shadow-md">Logout</a>
+    </div>
+
+    {#    Add project modal   #}
+    <div class="px-4 pt-20 fixed z-10 h-full w-full top-0 left-0 bg-opacity-50 hidden add-project-modal bg-gray-600">
+        <div class="mx-auto lg:w-1/6 w-full bg-white rounded-lg overflow-hidden container">
+            {#    Head of Form Modal #}
+            <div class="flex justify-between items-center bg-gray-200 p-2">
+                <h1 class="uppercase text-gray-900 text-sm">new project</h1>
+                <button class="rounded-full bg-gray-400 p-2 outline-none focus:outline-none close-project-modal">
+                    <svg class="text-gray-700 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            {#        Form #}
+            <form action="{{ url_for('add_project') }}" class="mt-5 px-4" method="post">
+                {{ form.csrf_token }}
+                <div class="flex flex-col mb-4">
+                    <p class="text-gray-900 font-bold text-sm">{{ form.project_name.label }}</p>
+                    {{ form.project_name(class="my-2 text-sm border-2 border-gray-300 rounded-lg px-2 py-1 outline-none focus:outline-none focus:border-gray-500 placeholder-blue-400 text-blue-400", placeholder="Todo App, etc...") }}
+                </div>
+                <div class="flex flex-col mb-4">
+                    <p class="text-gray-900 font-bold text-sm">{{ form.method_of_authentication.label }}</p>
+                    {{ form.method_of_authentication(class="appearance-none my-2 text-sm border-2 border-gray-300 rounded-lg px-2 py-1 outline-none focus:outline-none focus:border-gray-500 placeholder-blue-400 text-blue-400") }}
+                </div>
+                <button class="w-full bg-blue-400 text-gray-100 rounded-lg py-1 mb-6 mt-2">Create</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        const addProjectButton = document.querySelector(".add-project")
+        const closeProjectButton = document.querySelector(".close-project-modal")
+        const projectModal = document.querySelector(".add-project-modal")
+
+        addProjectButton.addEventListener('click', e => {
+            projectModal.classList.remove('hidden')
+        });
+
+        closeProjectButton.addEventListener('click', e => {
+            projectModal.classList.add("hidden")
+        })
+
+    </script>
+{% endblock %}

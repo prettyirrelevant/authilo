@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "build:css": "postcss src/static/development.css -o src/static/build.css"
+  },
+  "dependencies": {
+    "autoprefixer": "9.0.0",
+    "postcss-cli": "^8.3.0",
+    "tailwindcss": "1.9.6"
+  }
+}

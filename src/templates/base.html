@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='build.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" />
+    <title>{% if title %}{{ title }}{% else %} AuthiLo {% endif %}</title>
+</head>
+<body class="font-jetbrainsMono bg-gray-100">
+<nav class="p-2 bg-gray-200 text-gray-800">
+    <div class="lg:px-48 mx-auto container flex justify-between items-center">
+        <a href="{{ url_for('index') }}" class="text-xl font-bold tracking-wider">AuthiLo</a>
+        {% if current_user %}
+            <div class="">
+                <img src="{{ current_user.avatar_url }}" alt="profile picture" class="rounded-full w-10 cursor-pointer">
+            </div>
+        {% else %}
+            <a href="{{ url_for('login') }}" role="button" class="text-base tracking-wider outline-none hover:underline focus:outline-none">Login</a>
+        {% endif %}
+    </div>
+</nav>
+<div class="container mx-auto lg:px-48">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flex items-center justify-between text-gray-100 mt-4 px-4 py-4 rounded-xl mb-4 bg-gray-300">
+                    <span class="w-1/5 inline-block text-{{ category }}-600">
+                        <svg class="w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                    </span>
+                    <span class="w-3/5 inline-block text-sm text-{{ category }}-600 tracking-wide font-bold">
+                        {{ message }}
+                    </span>
+                    <button class="bg-transparent text-2xl font-semibold leading-none mr-2 outline-none focus:outline-none text-{{ category }}-600 closeBtn">
+                        <svg class="w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block body %}
+    {% endblock %}
+    <div class="fixed bottom-0 left-0 bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-tr-lg"><a class="text-blue-400 hover:underline" href="https://mockapi.io">UI Inspiration</a></div>
+    <div class="fixed bottom-0 right-0 bg-gray-200 text-gray-800 text-sm font-semibold px-2 py-1 rounded-tl-lg tracking-wide">
+        <a href="https://twitter.com/enny_ez" class="text-blue-400 hover:underline" target="_blank">Twitter</a>
+        <a href="https://github.com/prettyirrelevant" class="text-blue-400 hover:underline" target="_blank">GitHub</a>
+        <a href="mailto:ienioladewumi@gmail.com" class="text-blue-400 hover:underline">Mail</a>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/components/prism-core.min.js" integrity="sha512-hqRrGU7ys5tkcqxx5FIZTBb7PkO2o3mU6U5+qB9b55kgMlBUT4J2wPwQfMCxeJW1fC8pBxuatxoH//z0FInhrA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-Q3qGP1uJL/B0sEmu57PKXjCirgPKMbg73OLRbTJ6lfHCVU5zkHqmcTI5EV2fSoPV1MHdKsCBE7m/aS6q0pPjRQ==" crossorigin="anonymous"></script>
+<script>
+    const closeBtns = document.querySelectorAll(".closeBtn")
+    closeBtns.forEach((el) => {
+        el.addEventListener('click', e => {
+            el.parentElement.remove()
+        })
+        console.log()
+    })
+</script>
+{% block scripts %}
+{% endblock %}
+</body>
+</html>

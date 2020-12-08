@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="mx-2 md:mx-0 mt-5 flex items-center text-gray-400">
+        <a class="cursor-pointer text-blue-500 mr-4 hover:underline focus:outline-none outline-none"
+           href="{{ url_for('projects') }}">Projects</a>
+        <svg class="w-5 mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+        <div class="flex items-center">
+            <img src="{{ project.url }}" alt="project url" class="rounded-full w-10">
+            <p class="text-gray-800 tracking-wide ml-2">{{ project.name }}</p>
+        </div>
+    </div>
+
+    <div class="mx-1 mt-6">
+        <p class="text-gray-900 font-bold">API KEY: <span
+                class="text-blue-700 font-normal hover:underline cursor-pointer">{{ project.api_key }}</span></p>
+        <p class="text-gray-900 font-bold">Account(s) present in DB: <span
+                class="text-blue-700 text-base font-normal">{{ project_accounts|length }}</span></p>
+        <p class="text-gray-900 font-bold">Method of Authentication: <span
+                class="text-blue-700 text-sm font-normal">{{ project.method_of_auth }} & password</span></p>
+        <a href="{{ url_for('delete_project', id=project._id) }}" role="button" class="mt-4 bg-red-600 text-gray-100 rounded-md hover:shadow-md px-2 py-1 inline-block">Delete Project</a>
+    </div>
+
+
+
+    <div class="border-2 mt-10 rounded-lg mx-1 border-gray-400">
+        {#    TabLinks  #}
+        <div class="overflow-hidden text-gray-700 px-2 py-1 border-b-2 border-gray-400">
+            <button id="defaultOpen"
+                    class="tablinks text-blue-600 inline text-sm tracking-wide hover:underline cursor-pointer outline-none focus:outline-none"
+                    onclick="openSnippet(event, 'javascript')">
+                JavaScript
+            </button>
+            <button class="tablinks text-blue-600 inline text-sm tracking-wide hover:underline cursor-pointer outline-none focus:outline-none"
+                    onclick="openSnippet(event, 'python')">
+                Python
+            </button>
+            <button class="tablinks text-blue-600 inline text-sm tracking-wide hover:underline cursor-pointer outline-none focus:outline-none"
+                    onclick="openSnippet(event, 'curl')">
+                cURL
+            </button>
+        </div>
+
+        {#    Tab Contents   #}
+        <div id="javascript" class="mx-1 tabcontent">
+            <pre><code class="language-js">import axios from 'axios';
+const data = {'username': 'prettyuseless', 'password': 'blablablablabla'}
+axios.post('https://authilo.herokuapp.com/api/register',
+    data,
+    headers:{
+        'x-api-key': API_KEY
+    }
+);</code></pre>
+        </div>
+
+        <div id="python" class="mx-1 tabcontent">
+            <pre><code class="language-py">import json
+from urllib import request
+
+body = json.dumps({"email": "sarahdoe@mail.com", "password": "very secret", "fullname": "Sarah Doe"})
+headers = {'x-api-key': API_KEY}
+req = request.Request('https://authilo.herokuapp.com/api/register', data=body, headers=headers)
+response = request.urlopen(req)
+</code></pre>
+        </div>
+
+        <div id="curl" class="mx-1 tabcontent">
+            <pre><code class="language-bash">$ curl -X POST https://authilo.herokuapp.com/api/register -d '{"email": "johndoe@mail.com", "password": "johndoe", "gender": "M"}' -H "X-API-Key: API KEY"</code></pre>
+        </div>
+    </div>
+
+    {#    display when no account exists   #}
+    {% if project_accounts|length < 1 %}
+        <div class="text-gray-500 flex mt-24 justify-center">
+            <svg class="w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <p class="text-sm font-normal">No accounts yet...</p>
+        </div>
+    {% endif %}
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function openSnippet(event, language) {
+            let i, tabcontent, tablinks;
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.add("hidden")
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" underline", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(language).classList.remove("hidden")
+            event.currentTarget.classList.add("underline");
+        }
+
+        document.getElementById("defaultOpen").click();
+    </script>
+{% endblock %}

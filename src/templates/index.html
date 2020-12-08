@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="text-center mt-24 text-gray-800">
+        <h1 class="font-bold text-2xl tracking-wider">AuthiLo</h1>
+        <p class="mt-2 text-sm md:text-base tracking-wider">Authentication for testing or hobby projects just got easier!</p>
+        <a role="button" href="{{ url_for('register') }}" class="inline-block bg-blue-500 px-4 py-2 rounded-lg mt-4 shadow-lg hover:shadow-xl focus:outline-none text-gray-100">Leggo!</a>
+    </div>
+
+    <div class="text-center mt-24 text-gray-800">
+        <h1 class="text-xl tracking-wider underline">Documentation</h1>
+        <p class="font-semibold mt-10 text-sm md:text-base tracking-wider">...Coming Soon...</p>
+    </div>
+{% endblock %}s

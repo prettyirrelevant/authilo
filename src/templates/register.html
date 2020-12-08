@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="text-gray-800 mt-10 mx-10">
+        <h1 class="text-left font-extrabold tracking-widest">Register</h1>
+        <form action="" method="post" class="flex flex-col mt-2" novalidate>
+            {{ form.csrf_token }}
+
+            {% if form.username.errors %}
+                {{ form.username(class="mt-2 text-sm border-2 border-red-300 rounded-lg px-2 py-1 outline-none focus:outline-none placeholder-blue-400 text-blue-400", placeholder="username") }}
+                {% for error in form.username.errors %}
+                    <small class="text-xs text-red-500">{{ error }}</small>
+                {% endfor %}
+            {% else %}
+                {{ form.username(class="my-2 text-sm border-2 border-gray-300 rounded-lg px-2 py-1 outline-none focus:outline-none focus:border-gray-500 placeholder-blue-400 text-blue-400", placeholder="username") }}
+            {% endif %}
+
+            {% if form.password.errors %}
+                {{ form.password(class="mt-2 text-sm border-2 border-red-300 rounded-lg px-2 py-1 outline-none focus:outline-none placeholder-blue-400 text-blue-400", placeholder="password") }}
+                {% for error in form.password.errors %}
+                    <small class="text-xs text-red-500">{{ error }}</small>
+                {% endfor %}
+            {% else %}
+                {{ form.password(class="my-2 text-sm border-2 border-gray-300 rounded-lg px-2 py-1 outline-none focus:outline-none focus:border-gray-500 placeholder-blue-400 text-blue-400", placeholder="password") }}
+            {% endif %}
+
+            {% if form.confirm_password.errors %}
+                {{ form.confirm_password(class="mt-2 text-sm border-2 border-red-300 border-lg rounded-lg px-2 py-1 outline-none focus:outline-none placeholder-blue-400 text-blue-400", placeholder="confirm password") }}
+                {% for error in form.confirm_password.errors %}
+                    <small class="text-xs text-red-500">{{ error }}</small>
+                {% endfor %}
+            {% else %}
+                {{ form.confirm_password(class="my-2 text-sm border-2 border-gray-300 border-lg rounded-lg px-2 py-1 outline-none focus:outline-none focus:border-gray-500 placeholder-blue-400 text-blue-400", placeholder="confirm password") }}
+            {% endif %}
+            <button class="rounded-lg py-1 text-blue-300 bg-gray-300 mt-4 hover:text-gray-300 hover:bg-blue-300 outline-none focus:outline-none" type="submit">Register</button>
+        </form>
+        <hr class="my-5">
+        <p class="text-gray-700 text-sm">Already have an account? Login <a href="{{ url_for('login') }}" class="text-blue-400 hover:underline">here</a>
+        </p>
+    </div>
+
+{% endblock %}
