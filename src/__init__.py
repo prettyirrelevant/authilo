@@ -7,6 +7,7 @@ mongo = PyMongo()
 def create_app(settings=None):
     app = Flask(__name__)
     app.config.from_object(settings)
+    app.config.from_envvar("FLASK_SETTINGS")
 
     mongo.init_app(app)
 
@@ -14,6 +15,6 @@ def create_app(settings=None):
         from . import routes
         from .api import api_bp
 
-        app.register_blueprint(api_bp, url_prefix='/api')
+        app.register_blueprint(api_bp, url_prefix="/api")
 
         return app
