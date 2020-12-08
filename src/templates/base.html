@@ -27,15 +27,15 @@
         {% if messages %}
             {% for category, message in messages %}
                 <div class="flex items-center justify-between text-gray-100 mt-4 px-4 py-4 rounded-xl mb-4 bg-gray-300">
-                    <span class="w-1/5 inline-block {{'text-' + category + '-600' }}">
+                    <span class="w-1/5 inline-block text-blue-600">
                         <svg class="w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                         </svg>
                     </span>
-                    <span class="w-3/5 inline-block text-sm {{'text-'+ category + '-600' }} tracking-wide font-bold">
+                    <span class="w-3/5 inline-block text-sm text-blue-600 tracking-wide font-bold">
                         {{ message }}
                     </span>
-                    <button class="bg-transparent text-2xl font-semibold leading-none mr-2 outline-none focus:outline-none {{'text-' + category + '-600' }} closeBtn">
+                    <button class="bg-transparent text-2xl font-semibold leading-none mr-2 outline-none focus:outline-none text-blue-600 closeBtn">
                         <svg class="w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
